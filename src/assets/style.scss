@@ -1,0 +1,48 @@
+// boostrap
+@import "~bootstrap/scss/functions";
+@import "./helpers/_variables";
+@import "~bootstrap/scss/bootstrap";
+
+// custom
+@import "./helpers/components/_progress";
+
+
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+.player {
+  width: 600px;
+  background-color: #999;
+}
+
+.btn {
+  display: block;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #333;
+}
+
+.container {
+  display: flex;
+}
+
+.list {
+  width: 600px;
+
+  &__item {
+    width: 600px;
+    border: 1px solid #666;
+    list-style: none;
+    padding: 20px;
+
+    &--active {
+      color: red;
+    }
+  }
+}
