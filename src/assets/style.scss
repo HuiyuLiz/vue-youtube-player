@@ -8,6 +8,9 @@
 @import "./helpers/components/_inputRange";
 @import "./helpers/components/_button";
 
+body{
+  user-select: none;
+}
 
 #app {
   font-family: "Avenir", "Lexend Deca", "微軟正黑體", Helvetica, Arial, sans-serif;
