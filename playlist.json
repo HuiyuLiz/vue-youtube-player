@@ -1,0 +1,129 @@
+{
+  "KPOP": [
+    {
+      "album": "Flourishing",
+      "singer": "CHUNG HA",
+      "type": "KPOP",
+      "img": "/jpg/Flourishing.jpg",
+      "backgroundImg": "/jpg/FlourishingLarge.jpg",
+      "followers": "1,914,830",
+      "isFollow": false,
+      "copyright": "© 2019 MNH ENTERTAINMENT",
+      "songs": [
+        {
+          "song": "Chica",
+          "videoId": "y0sXqGcSD-Q",
+          "duration": "03:14",
+          "like": false
+        },
+        {
+          "song": "Young In Love",
+          "videoId": "DKhZum7KwzQ",
+          "duration": "03:18",
+          "like": false
+        },
+        {
+          "song": "Call It Love",
+          "videoId": "VKhf3w0lqrY",
+          "duration": "04:01",
+          "like": false
+        },
+        {
+          "song": "Flourishing",
+          "videoId": "kJ1-N-UXyo8",
+          "duration": "03:15",
+          "like": false
+        },
+        {
+          "song": "Snapping",
+          "videoId": "deV_DmHKwjc",
+          "duration": "03:34",
+          "like": false
+        }
+      ]
+    },
+    {
+      "album": "FANCY YOU",
+      "singer": "TWICE",
+      "type": "KPOP",
+      "img": "/jpg/FancyYou.jpg",
+      "backgroundImg": "/jpg/FancyYouLarge.png",
+      "followers": "3,367,565",
+      "isFollow": true,
+      "copyright": "© 2019 JYP Entertainment",
+      "songs": [
+        {
+          "song": "FANCY",
+          "videoId": "kOHB85vDuow",
+          "duration": "03:38",
+          "like": false
+        }
+      ]
+    }
+  ],
+  "Top Hits": [
+    {
+      "album": "How Do You Sleep?",
+      "singer": "Sam Smith",
+      "type": "Top Hits",
+      "img": "/jpg/HowDoYouSleep.png",
+      "backgroundImg": "/jpg/HowDoYouSleepLarge.jpg",
+      "followers": "42,131,043",
+      "isFollow": false,
+      "copyright": "© 2019 Universal Music Operations Limited",
+      "songs": [
+        {
+          "song": "How Do You Sleep?",
+          "videoId": "_hmrKnTFzn4",
+          "duration": "03:48",
+          "like": false
+        }
+      ]
+    }
+  ],
+  "Taiwan Hits": [
+    {
+      "album": "這款自作多情",
+      "singer": "茄子蛋",
+      "type": "Taiwan Hits",
+      "img": "/jpg/這款自作多情.jpg",
+      "backgroundImg": "/jpg/這款自作多情Large.jpg",
+      "followers": "413,825",
+      "isFollow": false,
+      "copyright": "© 2019 艾格普蘭特艾格有限公司",
+      "songs": [
+        {
+          "song": "這款自作多情",
+          "videoId": "UocMW7BG0ls",
+          "duration": "06:36",
+          "like": false
+        }
+      ]
+    }
+  ],
+  "Mix": [
+    {
+      "album": "Mix",
+      "type": "Mix",
+      "img": "/jpg/mix.jpg",
+      "backgroundImg": "/jpg/mix.jpg",
+      "followers": "6",
+      "isFollow": true,
+      "songs": [
+        {
+          "song": "夜に駆ける",
+          "videoId": "by4SYYWlhEs",
+          "duration": "04:21",
+          "like": true,
+          "singer": "YOASOBI"
+        },{
+          "song": "怪物",
+          "videoId": "dy90tA3TT1c",
+          "duration": "03:28",
+          "like": false,
+          "singer": "YOASOBI"
+        }
+      ]
+    }
+  ]
+}
