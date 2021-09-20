@@ -28,7 +28,7 @@
             <hr class="border-secondary w-100" style="opacity:0.2">
             <li class="text-left mb-2">
               <div class="d-flex align-items-center">
-                <img src="/jpg/background2.jpg" alt="" style="width:30px;height:30px" class="img-cover rounded-circle">
+                <img :src="`${publicPath}jpg/background2.jpg`" alt="" style="width:30px;height:30px" class="img-cover rounded-circle">
                 <a class="ml-2 text-muted">F2E Developer</a>
               </div>
             </li>
@@ -116,7 +116,7 @@
                     <div class="d-flex flex-column
                                        justify-content-center align-items-center">
                       <div class="img-singer-thumb img-cover rounded-circle"
-                        :style="`background-image: url(${item.backgroundImg})`" @click="selectSinger({item,index})">
+                        :style="`background-image: url(${publicPath}${item.backgroundImg})`" @click="selectSinger({item,index})">
                       </div>
                       <small class="text-white mt-3" v-if="musicType!=='Mix'">{{item.singer}}</small>
                       <small class="text-white mt-3" v-else>Daily Mix</small>

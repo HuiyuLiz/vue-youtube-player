@@ -43,7 +43,8 @@ export default {
       currentBackGround: "",
       playListStatus: "OVERVIEW",
       navbar: "Playlist",
-      copyright: ""
+      copyright: "",
+      publicPath: "./"
     };
   },
   components: {
@@ -53,7 +54,7 @@ export default {
   },
   created() {
     let vm = this;
-    this.axios.get("/playlist.json").then(response => {
+    this.axios.get("./playlist.json").then(response => {
       vm.playList = response.data;
       this.init();
       this.player.setVolume(30);
@@ -92,7 +93,8 @@ export default {
     },
     navbar() {
       if (this.navbar === "Mix") {
-        this.currentBackGround = this.playList["Mix"][0].backgroundImg;
+        this.currentBackGround =
+          this.publicPath + this.playList["Mix"][0].backgroundImg;
         this.currentPlayList = this.playList["Mix"][0].songs;
       }
     }
@@ -148,7 +150,7 @@ export default {
       this.videoId = item.songs[this.currentIndex].videoId;
       this.currentPlayList = item.songs || [];
       this.currentAlbumImg = item.img;
-      this.currentBackGround = item.backgroundImg;
+      this.currentBackGround = this.publicPath + item.backgroundImg;
       this.currentSinger = item.singer;
       this.musicType = item.type;
       this.copyright = item.copyright;
