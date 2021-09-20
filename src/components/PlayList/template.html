@@ -1,0 +1,217 @@
+<div>
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+  <div class="h-0">
+    <youtube :video-id="videoId" loop="isLoop" autoplay="isAutoPlay" ref="youtube" class="youtube" @ended="loopSong"
+      @playing="updateDuration" @paused="paused" />
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- 導覽 -->
+      <div class="col-lg-2 col-md-3  bg-secondary-dark px-5 px-md-3 ">
+        <nav class="navbar-brand mt-5 text-white d-flex align-items-center mb-5"><i class="material-icons mr-2">
+            headset
+          </i>MusicBox</nav>
+        <div class="d-flex flex-column justify-content-between py-3" style="height: calc(90vh - 200px)">
+          <ul class="list-group">
+            <li class="text-left  mb-2">
+              <a class="text-secondary" @click="navbar='Home'" :class="{'text-success':navbar==='Home'}">Home</a>
+            </li>
+            <li class="text-left mb-2">
+              <a class="text-secondary" @click="navbar='Playlist',playListStatus='OVERVIEW'"
+                :class="{'text-success':navbar==='Playlist'}">Playlist</a>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <hr class="border-secondary w-100" style="opacity:0.2">
+            <li class="text-left mb-2">
+              <div class="d-flex align-items-center">
+                <img src="/jpg/background2.jpg" alt="" style="width:30px;height:30px" class="img-cover rounded-circle">
+                <a class="ml-2 text-muted">F2E Developer</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- 中間 -->
+      <div class="col-lg-10 col-md-9 playlist">
+        <!-- home -->
+        <AlbumList :playList="playList" :typeList="typeList" @selectSinger="selectSinger" v-if="navbar==='Home'">
+        </AlbumList>
+        <!-- PlayList -->
+        <template v-if="navbar==='Playlist'">
+          <div class="row" @click="checkPopovers($event)">
+            <div
+              class="w-100 text-left py-5 d-flex flex-column align-items-between justify-content-center m-auto img-cover img-shadow"
+              :style="`background-image: url(${currentBackGround})`">
+              <div class="pt-4 m-auto" style="z-index:1">
+                <div v-for="item in sameTypeList">
+                  <div class="text-center text-success" v-if="item.singer===currentSinger && musicType!=='Mix'"><small
+                      class>{{item.followers}}
+                      FOLLOWERS </small>
+                  </div>
+                </div>
+                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-if="musicType==='Mix'">
+                  Mix
+                </h3>
+                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-else="musicType!=='Mix'">
+                  {{currentSinger}}</h3>
+
+                <div class="d-flex align-items-center justify-content-center pb-3">
+                  <button class="btn btn-success mx-2"
+                    @click="togglePlay"><small>{{!isPlay?"PLAY":"PAUSED"}}</small></button>
+                  <div v-for="item in sameTypeList" :key="item.singer">
+                    <PlayListFollowerBtn :item="item" @followHandler="followHandler(item)"
+                      v-if="item.singer===currentSinger && musicType!=='Mix'">
+                    </PlayListFollowerBtn>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 m-auto" >
+              <ul class="d-flex justify-content-center pl-0">
+                <li class="">
+                  <a class="text-secondary mx-md-4"
+                    :class="{'border-bottom border-success':playListStatus==='OVERVIEW'}"
+                    @click="playListStatus='OVERVIEW'"><small>OVERVIEW</small></a>
+                </li>
+                <li class="">
+                  <a class="text-secondary mx-md-4 text-underline"
+                    :class="{'border-bottom border-success':playListStatus==='RELATED'}"
+                    @click="playListStatus='RELATED'"><small>RELATED
+                      ARTIST</small></a>
+                </li>
+                <li class="">
+                  <a class="text-secondary mx-md-4 text-underline"
+                    :class="{'border-bottom border-success':playListStatus==='ABOUT'}"
+                    @click="playListStatus='ABOUT'"><small>ABOUT</small></a>
+                </li>
+              </ul>
+              <!-- OVERVIEW -->
+              <div v-if="playListStatus==='OVERVIEW'">
+                <ul class="list-group pt-4">
+                  <!-- 喜歡的歌曲 -->
+                  <template v-if="currentPlayList && currentPlayList.length>0">
+                    <PlayListItem v-for="(item,index) in currentPlayList" :key="item.song" :item="item" :index="index"
+                      :isBuffering="isBuffering" :currentIndex="currentIndex" @selectSong="selectSong" @showPopovers="showPopovers" v-if="item.song">
+                      <a class="position-absolute pop text-white" :href="'https://www.youtube.com/watch?v='+item.videoId" target="_blank"
+                        style="top: 24px;left: -40px;" v-show="currentPopoverIndex === index">Youtube
+                      </a>
+                    </PlayListItem>
+                  </template>
+                  <div v-else>沒有相關歌曲。</div>
+
+                </ul>
+                <div class="text-secondary text-left px-3 pt-3 pb-5 d-flex flex-column">
+                  <small>若音樂無法正常收聽，請至 Youtube 撥放。</small>
+                  <small>{{copyright}}</small>
+                </div>
+              </div>
+              <!-- RELATED -->
+              <div class="list-group pt-4" v-if="playListStatus==='RELATED'">
+                <div class="row">
+                  <div class="col-md-6 col-lg-4 mb-4" v-for="(item,index) in sameTypeList" :key="item.singer">
+                    <div class="d-flex flex-column
+                                       justify-content-center align-items-center">
+                      <div class="img-singer-thumb img-cover rounded-circle"
+                        :style="`background-image: url(${item.backgroundImg})`" @click="selectSinger({item,index})">
+                      </div>
+                      <small class="text-white mt-3" v-if="musicType!=='Mix'">{{item.singer}}</small>
+                      <small class="text-white mt-3" v-else>Daily Mix</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- ABOUT -->
+              <div class="list-group pt-4" v-if="playListStatus==='ABOUT'">
+                <h5 class="text-white">The F2E - 前端修練精神時光屋 第三關 - MP3 Player</h5>
+                <small class="text-secondary">使用套件 VueYoutube 串流 Youtube 音源，The F2E 練習作品，無商業用途。</small>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+  <footer class="fixed-bottom">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 bg-dark py-3 border-top border-dark">
+          <div class="row">
+            <div class="col-md-10">
+              <div class="row">
+                <div class="col-md-4 d-flex align-items-center justify-content-left">
+                  <div class="img-thumb img-cover mr-2" :style="`background-image: url(${currentAlbumImg})`"></div>
+                  <div class="d-flex flex-column text-left">
+                    <div class="text-white d-flex align-items-center mb-1">
+                      <h5 class="h5 mb-0">{{currentSong}}</h5>
+                    </div>
+                    <small class="text-secondary" v-if="musicType!=='Mix'">{{currentSinger}}</small>
+                    <small class="text-secondary"
+                      v-if="musicType==='Mix'">{{currentPlayList[currentIndex].singer}}</small>
+                  </div>
+                </div>
+                <!-- PlayListController -->
+                <div class="col-md-8 my-auto">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <!-- 隨機撥放 -->
+                    <i class="material-icons mx-md-4 text-secondary" @click="isShuffle = !isShuffle"
+                      :class="{'text-success':isShuffle}">shuffle</i>
+                    <!-- 上一首 -->
+                    <i class="material-icons mx-md-4 text-secondary icon-font-large"
+                      @click="changeSong(-1)">keyboard_arrow_left</i>
+                    <!-- 撥放||暫停 -->
+                    <div class="mx-md-4 text-secondary" @click="togglePlay">
+                      <i class="material-icons" style="transform: translateY(4px);font-size:2rem"
+                        v-if="!isPlay">play_arrow</i>
+                      <i class="material-icons" style="transform: translateY(4px);font-size:2rem" v-else>pause</i>
+                    </div>
+                    <!-- 下一首 -->
+                    <i class="material-icons mx-md-4 text-secondary icon-font-large"
+                      @click="changeSong(1)">keyboard_arrow_right</i>
+                    <!-- 重複撥放 -->
+                    <div class="mx-md-4 text-secondary" @click="isLoop=!isLoop">
+                      <i class="material-icons text-secondary" style="transform: translateY(4px)"
+                        v-if="!isLoop">repeat</i>
+                      <i class="material-icons text-secondary" style="transform: translateY(4px)"
+                        :class="{'text-success':isLoop}" v-else>repeat_one</i>
+                    </div>
+                    <!-- <i class="material-icons mx-md-4 text-secondary">repeat</i> -->
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-secondary mr-2">{{currentTime===undefined ? 0 : currentTime|formatTime}}</small>
+                    <div class="progress">
+                      <div class="progress__bar" ref="progressBar" @click="processBarTime">
+                        <div class="progress__bar__pointer" :style="{'left':timeLine - 1 +'%'}"></div>
+                        <div class="progress__bar--fill" :style="{'width':timeLine+'%'}"></div>
+                      </div>
+                    </div>
+                    <small class="text-secondary ml-2">{{duration | formatTime}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 my-auto">
+              <div class="d-flex justify-content-end align-items-center">
+                <div @click="changeUnMute">
+                  <i class="material-icons text-secondary icon-font-large mr-2 pb-2"
+                    v-if="!isUnMute&&volume!==0">volume_down</i>
+                  <i class="material-icons text-secondary icon-font-large mr-2 pb-2"
+                    v-else="isUnMute&&volume==0">volume_off</i>
+                </div>
+                <!-- 調整音量 -->
+                <div class="volume w-50">
+                  <input class="input my-auto" type="range" name="volume" min="0" max="100" :value="volume"
+                    @change="changeVolume" @mousemove="changeVolume" @click="changeVolume" ref="volume"
+                    :style="{'background':`linear-gradient(90deg, #26de85 ${volume}%, #6c757d ${volume}%`}" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
