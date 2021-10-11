@@ -2,6 +2,7 @@
   "KPOP": [
     {
       "album": "Flourishing",
+      "id":1,
       "singer": "CHUNG HA",
       "type": "KPOP",
       "img": "/jpg/Flourishing.jpg",
@@ -44,6 +45,7 @@
     },
     {
       "album": "FANCY YOU",
+      "id": 2,
       "singer": "TWICE",
       "type": "KPOP",
       "img": "/jpg/FancyYou.jpg",
@@ -64,6 +66,7 @@
   "Top Hits": [
     {
       "album": "How Do You Sleep?",
+      "id": 3,
       "singer": "Sam Smith",
       "type": "Top Hits",
       "img": "/jpg/HowDoYouSleep.png",
@@ -84,6 +87,7 @@
   "Taiwan Hits": [
     {
       "album": "這款自作多情",
+      "id": 4,
       "singer": "茄子蛋",
       "type": "Taiwan Hits",
       "img": "/jpg/這款自作多情.jpg",
@@ -101,10 +105,11 @@
       ]
     }
   ],
-  "Mix": [
+  "Daily Mix": [
     {
-      "album": "Mix",
-      "type": "Mix",
+      "album": "Daily Mix",
+      "id": 5,
+      "type": "Daily Mix",
       "img": "/jpg/mix.jpg",
       "backgroundImg": "/jpg/mix.jpg",
       "followers": "6",
@@ -117,11 +122,11 @@
           "like": true,
           "singer": "YOASOBI"
         },{
-          "song": "怪物",
-          "videoId": "dy90tA3TT1c",
-          "duration": "03:28",
+          "song": "打上花火",
+          "videoId": "-tKVN2mAKRI",
+          "duration": "04:52",
           "like": false,
-          "singer": "YOASOBI"
+          "singer": "DAOKO × 米津玄師"
         }
       ]
     }
