@@ -48,15 +48,15 @@
               :style="`background-image: url(${currentBackGround})`">
               <div class="pt-4 m-auto" style="z-index:1">
                 <div v-for="item in sameTypeList">
-                  <div class="text-center text-success" v-if="item.singer===currentSinger && musicType!=='Mix'"><small
+                  <div class="text-center text-success" v-if="item.singer===currentSinger && musicType!=='Daily Mix'"><small
                       class>{{item.followers}}
                       FOLLOWERS </small>
                   </div>
                 </div>
-                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-if="musicType==='Mix'">
-                  Mix
+                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-if="musicType==='Daily Mix'">
+                  Daily Mix
                 </h3>
-                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-else="musicType!=='Mix'">
+                <h3 class="display-2 font-weight-bold text-white pt-3 pb-3 text-center" v-else="musicType!=='Daily Mix'">
                   {{currentSinger}}</h3>
 
                 <div class="d-flex align-items-center justify-content-center pb-3">
@@ -64,7 +64,7 @@
                     @click="togglePlay"><small>{{!isPlay?"PLAY":"PAUSED"}}</small></button>
                   <div v-for="item in sameTypeList" :key="item.singer">
                     <PlayListFollowerBtn :item="item" @followHandler="followHandler(item)"
-                      v-if="item.singer===currentSinger && musicType!=='Mix'">
+                      v-if="item.singer===currentSinger && musicType!=='Daily Mix'">
                     </PlayListFollowerBtn>
                   </div>
                 </div>
@@ -113,14 +113,20 @@
               <div class="list-group pt-4" v-if="playListStatus==='RELATED'">
                 <div class="row">
                   <div class="col-md-6 col-lg-4 mb-4" v-for="(item,index) in sameTypeList" :key="item.singer">
-                    <div class="d-flex flex-column
+                    <RelatedItem 
+                    :item="item"
+                    :index="index"
+                    :musicType="musicType"
+                    @selectSinger="selectSinger"
+                    ></RelatedItem>
+                    <!-- <div class="d-flex flex-column
                                        justify-content-center align-items-center">
                       <div class="img-singer-thumb img-cover rounded-circle"
                         :style="`background-image: url(${publicPath}${item.backgroundImg})`" @click="selectSinger({item,index})">
                       </div>
-                      <small class="text-white mt-3" v-if="musicType!=='Mix'">{{item.singer}}</small>
+                      <small class="text-white mt-3" v-if="musicType!=='Daily Mix'">{{item.singer}}</small>
                       <small class="text-white mt-3" v-else>Daily Mix</small>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -148,9 +154,9 @@
                     <div class="text-white d-flex align-items-center mb-1">
                       <h5 class="h5 mb-0">{{currentSong}}</h5>
                     </div>
-                    <small class="text-secondary" v-if="musicType!=='Mix'">{{currentSinger}}</small>
+                    <small class="text-secondary" v-if="musicType!=='Daily Mix'">{{currentSinger}}</small>
                     <small class="text-secondary"
-                      v-if="musicType==='Mix'">{{currentPlayList[currentIndex].singer}}</small>
+                      v-if="musicType==='Daily Mix'">{{currentPlayList[currentIndex].singer}}</small>
                   </div>
                 </div>
                 <!-- PlayListController -->

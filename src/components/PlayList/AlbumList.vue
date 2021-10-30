@@ -36,11 +36,24 @@ export default {
   props: ["playList", "typeList"],
   data() {
     return {
-      publicPath: "./"
+      publicPath: "./",
+      currentIndex: null,
+      currentItem: {}
     };
+  },
+  watch: {
+    currentItem(newValue, oldValue) {
+      if (oldValue.id !== newValue.id) {
+        this.emitHandler(newValue, this.currentIndex);
+      }
+    }
   },
   methods: {
     selectHandler(item, index) {
+      this.currentIndex = index;
+      this.currentItem = item;
+    },
+    emitHandler(item, index) {
       this.$emit("selectSinger", { item, index });
     }
   }

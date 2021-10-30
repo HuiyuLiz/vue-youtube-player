@@ -5,6 +5,7 @@ import VueAxios from "vue-axios";
 import AlbumList from "./AlbumList";
 import PlayListFollowerBtn from "./PlayListFollowerBtn";
 import PlayListItem from "./PlayListItem";
+import RelatedItem from "./RelatedItem";
 Vue.use(VueAxios, axios);
 export default {
   name: "PlayList",
@@ -50,7 +51,8 @@ export default {
   components: {
     PlayListFollowerBtn,
     AlbumList,
-    PlayListItem
+    PlayListItem,
+    RelatedItem
   },
   created() {
     let vm = this;
@@ -92,10 +94,10 @@ export default {
       }
     },
     navbar() {
-      if (this.navbar === "Mix") {
+      if (this.navbar === "Daily Mix") {
         this.currentBackGround =
-          this.publicPath + this.playList["Mix"][0].backgroundImg;
-        this.currentPlayList = this.playList["Mix"][0].songs;
+          this.publicPath + this.playList["Daily Mix"][0].backgroundImg;
+        this.currentPlayList = this.playList["Daily Mix"][0].songs;
       }
     }
   },
@@ -113,7 +115,7 @@ export default {
       return Object.keys(this.playList);
     },
     favoriteList() {
-      return this.playList["Mix"][0].songs || [];
+      return this.playList["Daily Mix"][0].songs || [];
     }
   },
   filters: {
@@ -158,10 +160,13 @@ export default {
     autoPlay() {
       // 自動撥放
       if (!this.isPlay) {
-        this.isPlay = true;
         this.player.playVideo();
       } else {
-        this.player.playVideo();
+        this.player.pauseVideo();
+        setTimeout(() => {
+          this.isPlay = true;
+          this.player.playVideo();
+        }, 1000);
       }
     },
     togglePlay() {
@@ -176,10 +181,10 @@ export default {
     changeSong(click) {
       // 上一首或下一首
       let total = this.currentPlayList.length;
+      if (total <= 1) return;
       this.currentIndex = (this.currentIndex + click + total) % total;
       this.init();
       this.player.nextVideo();
-
       this.$nextTick(function() {
         this.autoPlay();
       });
@@ -274,14 +279,23 @@ export default {
       }
     },
     selectSinger({ item, index }) {
+      if (
+        item.id === this.playList[this.musicType][this.albumIndex].id &&
+        this.isPlay
+      )
+        return;
       this.currentIndex = 0;
       this.albumIndex = index;
       this.reset(item);
-      if (this.musicType === "Mix") {
+      if (this.musicType === "Daily Mix") {
         this.currentSinger = this.currentPlayList[this.currentIndex].singer;
       }
       this.$nextTick(function() {
-        this.autoPlay();
+        this.player.pauseVideo();
+        setTimeout(() => {
+          this.isPlay = true;
+          this.player.playVideo();
+        }, 1000);
       });
     },
     selectSong({ item, index }) {
@@ -289,7 +303,7 @@ export default {
       this.currentSong = item.song;
       this.videoId = item.videoId;
       this.currentIndex = index;
-      if (this.musicType === "Mix") {
+      if (this.musicType === "Daily Mix") {
         this.currentSinger = this.currentPlayList[this.currentIndex].singer;
       }
       this.$nextTick(function() {
